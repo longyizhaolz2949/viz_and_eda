@@ -33,7 +33,7 @@ weather_df =
     name = recode(
       id, 
       USW00094728 = "CentralPark_NY", 
-      USC00519397 = "Molokai_HI",
+      USW00022534 = "Molokai_HI",
       USS0023B17S = "Waterhole_WA"),
     tmin = tmin / 10,
     tmax = tmax / 10) |>
@@ -46,6 +46,119 @@ weather_df =
 
     ## file min/max dates: 1869-01-01 / 2023-09-30
 
+    ## using cached file: /Users/longyizhao/Library/Caches/org.R-project.R/R/rnoaa/noaa_ghcnd/USW00022534.dly
+
+    ## date created (size, mb): 2023-09-28 10:20:46.67367 (3.83)
+
     ## file min/max dates: 1949-10-01 / 2023-09-30
 
+    ## using cached file: /Users/longyizhao/Library/Caches/org.R-project.R/R/rnoaa/noaa_ghcnd/USS0023B17S.dly
+
+    ## date created (size, mb): 2023-09-28 10:20:53.320358 (0.994)
+
     ## file min/max dates: 1999-09-01 / 2023-09-30
+
+lets make a plot
+
+``` r
+ggplot(weather_df, aes(x=tmin, y=tmax)) +
+  geom_point()
+```
+
+    ## Warning: Removed 17 rows containing missing values (`geom_point()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+pipes and stuff
+
+``` r
+weather_df |> 
+  filter(name == "CentralPark_NY") |>
+  ggplot(aes(x=tmin, y=tmax)) +
+  geom_point() 
+```
+
+## fancy plot
+
+``` r
+ggplot(weather_df, aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) +
+  geom_smooth(se = FALSE)
+```
+
+    ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+
+    ## Warning: Removed 17 rows containing non-finite values (`stat_smooth()`).
+
+    ## Warning: Removed 17 rows containing missing values (`geom_point()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+ggplot(weather_df, aes(x = tmin, y = tmax, color = name)) +
+  geom_point(aes(size = prcp), alpha = 0.3) +
+  geom_smooth() +
+  facet_grid(. ~name)
+```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning: Removed 17 rows containing non-finite values (`stat_smooth()`).
+
+    ## Warning: Removed 19 rows containing missing values (`geom_point()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+try assigning a specific color
+
+``` r
+weather_df |>
+  filter(name == "CentralPark_NY") |>
+  ggplot(aes(x=date, y=tmax)) +
+  geom_point(color = "blue")
+```
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+``` r
+weather_df |>
+  filter(name == "CentralPark_NY") |>
+  ggplot(aes(x=date, y=tmax, color = name))+
+  geom_point(alpha = 0.7, size = 0.5) # alpha is the transparency, size is the point size 
+```
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+weather_df |>
+  ggplot(aes(x = tmin, y=tmax)) + 
+  geom_hex()
+```
+
+    ## Warning: Removed 17 rows containing non-finite values (`stat_binhex()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+histogram
+
+``` r
+ggplot(weather_df, aes(x = tmax, fill = name)) + 
+  geom_histogram(alpha = 0.3, position = "dodge")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite values (`stat_bin()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+boxplot
+
+``` r
+ggplot(weather_df, aes(y = tmax, x=name))+
+  geom_boxplot()
+```
+
+    ## Warning: Removed 17 rows containing non-finite values (`stat_boxplot()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
