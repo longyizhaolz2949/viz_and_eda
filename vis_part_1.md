@@ -162,3 +162,29 @@ ggplot(weather_df, aes(y = tmax, x=name))+
     ## Warning: Removed 17 rows containing non-finite values (`stat_boxplot()`).
 
 ![](vis_part_1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+ridge plot
+
+``` r
+ggplot(weather_df, aes(x = tmax, y=name))+
+  geom_density_ridges()
+```
+
+    ## Picking joint bandwidth of 1.54
+
+    ## Warning: Removed 17 rows containing non-finite values
+    ## (`stat_density_ridges()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+``` r
+weather_df |>
+  filter(name == "Molokai_HI") |>
+  ggplot(aes(x=date, y=tmax)) +
+  geom_line(alpha = 0.5) +
+  geom_point(size = 0.5)
+```
+
+    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
