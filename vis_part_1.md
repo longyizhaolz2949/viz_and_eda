@@ -188,3 +188,36 @@ weather_df |>
     ## Warning: Removed 1 rows containing missing values (`geom_point()`).
 
 ![](vis_part_1_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+## save plot
+
+``` r
+ggp_weather = 
+  weather_df |>
+  ggplot(aes(x = tmin, y = tmax))+
+  geom_point()
+
+ggp_weather
+```
+
+    ## Warning: Removed 17 rows containing missing values (`geom_point()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+``` r
+ggsave("results/ggp_weather.pdf",  ggp_weather)
+```
+
+    ## Saving 7 x 5 in image
+
+    ## Warning: Removed 17 rows containing missing values (`geom_point()`).
+
+change scale of the plot
+
+``` r
+ggp_weather 
+```
+
+    ## Warning: Removed 17 rows containing missing values (`geom_point()`).
+
+![](vis_part_1_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
