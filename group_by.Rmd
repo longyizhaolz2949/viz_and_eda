@@ -36,7 +36,6 @@ weather_df =
 ```
 lubridate:floor_date: round to month, for example 2021-07-07 to 2021-07-01
 
-
 ## Initial numeric work
 
 ```{r}
@@ -113,7 +112,6 @@ weather_df |>
 
 ```
 
-
 ```{r}
 weather_df |>
   group_by (name, month)|>
@@ -135,8 +133,50 @@ weather_df |>
 ```
 knitrlabel: create a table to help understand plot
 
-:label
+## Grouped Mutate
 
+```{r}
+weather_df |>
+  group_by (name) |>
+  mutate(mean_tmax = mean(tmax, na.rm = TRUE))
+```
+
+```{r}
+weather_df |>
+  group_by (name) |>
+  mutate(
+    mean_tmax = mean(tmax, na.rm = TRUE), 
+    centerd_tmax = tmax-mean_tmax) |>
+  ggplot(aes(x = date, y = centerd_tmax, color = name)) +
+  geom_point()
+```
+
+```{r}
+weather_df |>
+  group_by (name, month)|>
+  mutate(tmax_rank = min_rank(desc(tmax)))|>
+  filter(tmax_rank < 2)
+```
+desc: from highest to lowest
+
+lags
+```{r}
+weather_df |>
+  group_by (name)|>
+  mutate(yesterday_tmax = lag(tmax))
+```
+showing yesterday's tmax in another column 
+mutate(yesterday_tmax = lag(tmax, 3)) temperature three days back 
+
+```{r}
+weather_df |>
+  group_by (name) |>
+  mutate(temp_change = tmax - lag(tmax)) |>
+  summarize(
+    sd_temp_change = sd(temp_change, na.rm = TRUE)
+  )
+```
+day to day variation of temperature at these locations 
 
 
 
